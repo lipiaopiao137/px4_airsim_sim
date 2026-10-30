@@ -3,7 +3,7 @@
 source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 echo "== processes =="
-for name in MicroXRCEAgent px4 airsim_sensors rviz2 offboard_square; do
+for name in MicroXRCEAgent px4 airsim_sensors rviz2 offboard_square joy_node; do
     if pgrep -x "$name" >/dev/null 2>&1; then
         printf '  %-18s running  %s\n' "$name" "$(pgrep -d, -x "$name")"
     else
@@ -11,14 +11,16 @@ for name in MicroXRCEAgent px4 airsim_sensors rviz2 offboard_square; do
     fi
 done
 
-# Keyboard node names are longer than the 15-character /proc comm limit, so
+# Controller node names are longer than the 15-character /proc comm limit, so
 # match their installed path instead of using pgrep -x.
-for name in keyboard_velocity velocity_control; do
-    pids=$(pgrep -d, -f "/px4_keyboard_control/$name" 2>/dev/null || true)
+for target in px4_keyboard_control/keyboard_velocity \
+              px4_keyboard_control/velocity_control \
+              px4_gamepad_control/gamepad_control; do
+    pids=$(pgrep -d, -f "/$target" 2>/dev/null || true)
     if [[ -n "$pids" ]]; then
-        printf '  %-18s running  %s\n' "$name" "$pids"
+        printf '  %-18s running  %s\n' "${target##*/}" "$pids"
     else
-        printf '  %-18s -        not running\n' "$name"
+        printf '  %-18s -        not running\n' "${target##*/}"
     fi
 done
 

@@ -15,6 +15,8 @@ ros2 topic list 2>/dev/null | grep -qx "/fmu/out/vehicle_status" \
 
 stop_launch '[r]os2 launch px4_keyboard_control'
 stop_launch '[p]x4_keyboard_control/(keyboard_velocity|velocity_control)'
+stop_launch '[r]os2 launch px4_gamepad_control'
+stop_launch '[p]x4_gamepad_control/gamepad_control'
 # Only one offboard controller may stream setpoints at a time.
 stop_name offboard_square
 stop_launch '[r]os2 launch px4_offboard_demo'

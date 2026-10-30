@@ -5,6 +5,9 @@ source "$(dirname "${BASH_SOURCE[0]}")/common.sh"
 
 stop_launch '[r]os2 launch px4_keyboard_control'
 stop_launch '[p]x4_keyboard_control/(keyboard_velocity|velocity_control)'
+stop_launch '[r]os2 launch px4_gamepad_control'
+stop_launch '[p]x4_gamepad_control/gamepad_control'
+stop_name joy_node
 
 stop_name offboard_square
 stop_launch '[r]os2 launch px4_offboard_demo'
@@ -36,4 +39,4 @@ if [[ "${1:-}" == "--blocks" ]]; then
     log "AirSim state after close: $(blocks_state)"
 fi
 
-log "stopped (logs in /tmp/{px4_sitl,bridge,rviz,offboard,uxrce_agent}.log)"
+log "stopped (logs in /tmp/{px4_sitl,bridge,rviz,offboard,uxrce_agent,joy,gamepad}.log)"

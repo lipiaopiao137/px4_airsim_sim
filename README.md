@@ -5,9 +5,9 @@
 - 学习 PX4 Offboard 控制流程；
 - 在无真实无人机的情况下验证 ROS 2 控制节点；
 - 获取仿真的 RGB、深度、LiDAR、里程计和飞行轨迹；
-- 用自动航线或键盘控制无人机，并在 RViz2 中观察结果。
+- 用自动航线、键盘或 Xbox 手柄控制无人机，并在 RViz2 中观察结果。
 
-项目已经完成端到端联调。默认示例可以自动完成解锁、起飞、方形航线、降落和上锁，也可以切换为键盘遥控。
+项目已经完成端到端联调。默认示例可以自动完成解锁、起飞、方形航线、降落和上锁，也可以切换为键盘或 Xbox 手柄遥控。
 
 ## 系统架构与生态
 
@@ -18,7 +18,7 @@
 - **飞控层（PX4-Autopilot）**：uORB 消息在飞控模块之间流转，`DDS Client` 通过 `Micro-XRCE-DDS-Agent` 把 `/fmu/in/*`、`/fmu/out/*` 暴露给 ROS 2；QGC 通过 MAVLink（UDP 14550）连接。
 - **仿真层（AirSim Blocks）**：在 Windows 侧提供场景、物理引擎与传感器，通过 `simulator_mavlink`（TCP 4560）与 PX4 交换状态和控制，通过 `API Server`（TCP 41451）向 ROS 2 提供图像、深度、LiDAR 和位姿。
 - **中间件（uXRCE-DDS）**：PX4 与 ROS 2 之间不使用 MAVLink，而是直接通过 DDS 话题通信，ROS 2 侧的消息定义由 `px4_msgs` 提供。
-- **应用层（ROS 2）**：本仓库提供 `airsim_sensors`、`topic_rates`、`keyboard_velocity`、`velocity_control`、`offboard_square` 五个 C++ 节点，全部是 `ament_cmake` 包；RViz2 负责可视化。
+- **应用层（ROS 2）**：本仓库提供 `airsim_sensors`、`topic_rates`、`keyboard_velocity`、`velocity_control`、`gamepad_control`、`offboard_square` 六个 C++ 节点，全部是 `ament_cmake` 包；RViz2 负责可视化。
 
 
 ## 仿真形态：纯物理 / 半物理 / 实机
@@ -85,7 +85,7 @@ cd /home/ppl22/pp_proj/px4_airsim_sim
 ./scripts/start_rviz.sh     # 5. 打开 RViz2
 ```
 
-每条命令成功后再执行下一条。启动完成后，从下面两种控制方式中选择一种。
+每条命令成功后再执行下一条。启动完成后，从下面三种控制方式中选择一种。
 
 ### 自动方形航线
 
@@ -130,7 +130,51 @@ cd /home/ppl22/pp_proj/px4_airsim_sim
 ./scripts/start_keyboard.sh takeoff_altitude:=2.0 takeoff_climb_rate:=0.6 cmd_timeout:=0.5
 ```
 
-自动航线和键盘遥控都会持续发布 Offboard 设定点，因此不能同时运行。启动脚本会自动停止另一种控制程序。
+### Xbox 手柄遥控
+
+```bash
+./scripts/start_gamepad.sh
+```
+
+该命令启动 `joy_node` 读取手柄，并在后台运行 `gamepad_control`（需要 `ros-humble-joy`，本机已安装）。按 **RB** 后无人机解锁、进入 Offboard 并自动爬升到默认 1.5 m；按 **LB** 降落。自动起飞过程中按 LB 会被忽略。
+
+| 输入 | 动作 | 输入 | 动作 |
+| --- | --- | --- | --- |
+| 左摇杆 上 / 下 | 上升 / 下降 | 左摇杆 左 / 右 | 左转 / 右转 |
+| 右摇杆 上 / 下 | 前进 / 后退 | 右摇杆 左 / 右 | 左移 / 右移 |
+| RB | 解锁 · 起飞 | LB | 降落 |
+
+摇杆输入带 0.1 死区和 `tanh` 响应曲线，松手即悬停；超过 1 s 没有手柄消息时节点自动发送零速度。默认是 USA 布局（左摇杆油门/偏航，右摇杆平移），JAPAN / CHINA 布局与参考实现一致：
+
+```bash
+./scripts/start_gamepad.sh rc_control_mode:=JAPAN
+./scripts/start_gamepad.sh rc_control_mode:=CHINA
+```
+
+WSL2 默认看不到 Windows 手柄。USB 手柄或 Xbox 无线适配器可以先用 usbipd 转发（Windows 管理员 PowerShell）：
+
+```powershell
+usbipd list
+usbipd attach --wsl --busid <BUSID>
+```
+
+转发后 WSL 中出现 `/dev/input/event*`，脚本自动使用第一个手柄。多手柄时可用环境变量 `JOY_DEVICE_ID` 或 `JOY_DEVICE_NAME` 指定。
+
+常用参数：
+
+| 参数 | 默认值 | 含义 |
+| --- | ---: | --- |
+| `rc_control_mode` | USA | 摇杆布局：USA / JAPAN / CHINA |
+| `control.max_xy_vel` | 2.0 | 水平速度上限，m/s |
+| `control.max_z_vel` | 1.5 | 升降速度上限，m/s |
+| `control.max_yaw_vel` | 1.0 | 偏航角速度上限，rad/s |
+| `takeoff_altitude` | 1.5 | 自动起飞高度，m |
+| `takeoff_climb_rate` | 0.5 | 自动起飞爬升速度，m/s |
+| `cmd_timeout` | 1.0 | 手柄消息超时，s |
+
+完整参数见 [gamepad_control.launch.py](ros2_ws/src/px4_gamepad_control/launch/gamepad_control.launch.py)。
+
+自动航线、键盘遥控和手柄遥控都会持续发布 Offboard 设定点，因此不能同时运行。启动脚本会自动停止另一种控制程序。
 
 ## 检查运行状态
 
@@ -190,6 +234,7 @@ RViz2 默认显示 RGB 图像、深度点云、LiDAR 点云和 `Trajectory` 飞�
 | 修改传感器发布频率或桥接参数 | `ros2_ws/src/airsim_ros2_bridge/launch/sensors.launch.py` |
 | 修改方形航线默认参数 | `ros2_ws/src/px4_offboard_demo/launch/offboard_square.launch.py` |
 | 修改键盘控制默认参数 | `ros2_ws/src/px4_keyboard_control/launch/velocity_control.launch.py` |
+| 修改手柄控制默认参数 | `ros2_ws/src/px4_gamepad_control/launch/gamepad_control.launch.py` |
 | 修改启动路径或 Windows Blocks 位置 | `scripts/common.sh` |
 | 修改 RViz2 布局 | `ros2_ws/src/airsim_ros2_bridge/config/airsim.rviz` |
 
@@ -247,6 +292,8 @@ cd ..
 /tmp/offboard.log
 /tmp/keyboard.log
 /tmp/velocity_control.log
+/tmp/joy.log
+/tmp/gamepad.log
 ```
 
 ## 目录结构
@@ -261,6 +308,7 @@ ros2_ws/src/
   px4_msgs/                     与 PX4 v1.15.4 匹配的消息定义
   px4_offboard_demo/            自动方形航线示例
   px4_keyboard_control/         键盘输入与速度控制
+  px4_gamepad_control/          Xbox 手柄输入、速度与起降控制
 scripts/                        启动、停止、状态和频率检查脚本
 third_party/Micro-XRCE-DDS-Agent/
                                 PX4 与 ROS 2 之间的 DDS Agent
@@ -350,7 +398,7 @@ source /opt/ros/humble/setup.bash
 source /home/ppl22/pp_proj/px4_airsim_sim/ros2_ws/install/setup.bash
 ros2 launch airsim_ros2_bridge sensors.launch.py
 
-# ⑤ WSL：offboard 航线（或键盘遥控：./scripts/start_keyboard.sh）
+# ⑤ WSL：offboard 航线（或键盘遥控：./scripts/start_keyboard.sh，手柄：./scripts/start_gamepad.sh）
 ros2 launch px4_offboard_demo offboard_square.launch.py
 
 # 等价脚本：

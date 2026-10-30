@@ -69,7 +69,7 @@
     <rect x="105" y="390" width="300" height="60" rx="12" fill="#FFF8DB" stroke="#E3B341" stroke-width="1.8"/>
   </g>
   <text x="125" y="415" font-size="15" font-weight="700" fill="#8A6D00">ROS 2 · 本项目节点</text>
-  <text x="125" y="434" font-size="10.5" fill="#8C6D1F">airsim_sensors / offboard / keyboard</text>
+  <text x="125" y="434" font-size="10.5" fill="#8C6D1F">airsim_sensors / offboard / keyboard / gamepad</text>
 
   <text x="64" y="482" font-size="11.5" fill="#4B5563">• 无需硬件，启动即飞，适合快速迭代算法</text>
   <text x="64" y="506" font-size="11.5" fill="#4B5563">• AirSim 提供动力学与传感器，PX4 负责控制</text>
