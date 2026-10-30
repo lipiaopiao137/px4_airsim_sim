@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1100" width="100%"
+     font-family="Microsoft YaHei, Segoe UI, PingFang SC, Noto Sans SC, Arial, sans-serif"
+     role="img" aria-label="PX4 + AirSim + ROS 2 联合仿真系统架构图">
+  <title>PX4 + AirSim + ROS 2 联合仿真系统架构</title>
+  <desc>展示 PX4 飞控、AirSim 仿真器、uXRCE-DDS 中间件与 ROS 2 应用层的关系，以及本项目的节点组成和后续扩展方向。</desc>
+
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3AA6DE"/>
+      <stop offset="1" stop-color="#1B6FA8"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#34C77B"/>
+      <stop offset="1" stop-color="#1E8E4E"/>
+    </linearGradient>
+    <linearGradient id="gPurple" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A55EEA"/>
+      <stop offset="1" stop-color="#7B2FBF"/>
+    </linearGradient>
+    <linearGradient id="gPink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F0508A"/>
+      <stop offset="1" stop-color="#C2255C"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="136%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0F172A" flood-opacity="0.13"/>
+    </filter>
+
+    <marker id="mPurple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7B2FBF"/>
+    </marker>
+    <marker id="mPurpleStart" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,5 L10,10 Z" fill="#7B2FBF"/>
+    </marker>
+    <marker id="mGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#1E8E4E"/>
+    </marker>
+    <marker id="mGreenStart" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,5 L10,10 Z" fill="#1E8E4E"/>
+    </marker>
+    <marker id="mPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#C2255C"/>
+    </marker>
+    <marker id="mPinkStart" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,5 L10,10 Z" fill="#C2255C"/>
+    </marker>
+  </defs>
+
+  <!-- canvas -->
+  <rect x="0" y="0" width="1440" height="1100" fill="#F2F6FB"/>
+  <rect x="24" y="96" width="1392" height="974" rx="26" fill="#FFFFFF" stroke="#E4EAF2" stroke-width="1.5"/>
+
+  <text x="720" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#14213D">PX4 + AirSim + ROS 2 联合仿真系统架构</text>
+  <text x="720" y="78" text-anchor="middle" font-size="14" fill="#5B6B82">了解 PX4 · uXRCE-DDS · ROS 2 生态，以及本项目的定位与后续扩展方向</text>
+
+  <!-- ============================ 飞控层 ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="55" y="118" width="540" height="296" rx="18" fill="url(#gBlue)"/>
+  </g>
+  <text x="85" y="164" font-size="28" font-weight="700" fill="#FFFFFF">PX4-Autopilot</text>
+  <text x="85" y="187" font-size="12.5" fill="#DCEFFF">PX4 v1.15.4 · 飞行控制 · SITL</text>
+
+  <rect x="85" y="204" width="124" height="42" rx="8" fill="#FFFFFF" opacity="0.95"/>
+  <rect x="225" y="204" width="124" height="42" rx="8" fill="#FFFFFF" opacity="0.95"/>
+  <rect x="365" y="204" width="124" height="42" rx="8" fill="#FFFFFF" opacity="0.95"/>
+  <text x="147" y="230" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1B6FA8">uORB Topics</text>
+  <text x="287" y="230" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1B6FA8">uORB Topics</text>
+  <text x="427" y="230" text-anchor="middle" font-size="12.5" font-weight="600" fill="#1B6FA8">uORB Topics</text>
+
+  <rect x="85" y="262" width="480" height="56" rx="12" fill="#D6336C"/>
+  <text x="325" y="297" text-anchor="middle" font-size="16.5" font-weight="700" fill="#FFFFFF">DDS Client（uXRCE-DDS）</text>
+
+  <rect x="85" y="336" width="150" height="44" rx="10" fill="#FFFFFF" opacity="0.16" stroke="#FFFFFF" stroke-opacity="0.45"/>
+  <rect x="248" y="336" width="150" height="44" rx="10" fill="#FFFFFF" opacity="0.16" stroke="#FFFFFF" stroke-opacity="0.45"/>
+  <rect x="411" y="336" width="150" height="44" rx="10" fill="#FFFFFF" opacity="0.16" stroke="#FFFFFF" stroke-opacity="0.45"/>
+  <text x="160" y="363" text-anchor="middle" font-size="12.5" fill="#EAF6FF">位置控制</text>
+  <text x="323" y="363" text-anchor="middle" font-size="12.5" fill="#EAF6FF">速度控制</text>
+  <text x="486" y="363" text-anchor="middle" font-size="12.5" fill="#EAF6FF">姿态控制</text>
+
+  <!-- ============================ QGC ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="875" y="130" width="215" height="84" rx="42" fill="url(#gPurple)"/>
+  </g>
+  <text x="982" y="166" text-anchor="middle" font-size="26" font-weight="700" fill="#FFFFFF">QGC</text>
+  <text x="982" y="190" text-anchor="middle" font-size="11.5" fill="#EDE3FF">地面站 · MAVLink</text>
+
+  <line x1="599" y1="172" x2="871" y2="172" stroke="#7B2FBF" stroke-width="2.5"
+        marker-end="url(#mPurple)" marker-start="url(#mPurpleStart)"/>
+  <text x="735" y="160" text-anchor="middle" font-size="11.5" fill="#7B2FBF">MAVLink chan0 · UDP:14550</text>
+
+  <!-- ============================ AirSim ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="875" y="262" width="330" height="178" rx="18" fill="url(#gGreen)"/>
+  </g>
+  <text x="902" y="306" font-size="28" font-weight="700" fill="#FFFFFF">AirSim</text>
+  <text x="902" y="329" font-size="11.5" fill="#DFF7E8">Blocks 1.8.1 · 场景 / 动力学 / 传感器</text>
+
+  <rect x="902" y="348" width="134" height="38" rx="9" fill="#FFFFFF" opacity="0.18" stroke="#FFFFFF" stroke-opacity="0.45"/>
+  <rect x="1046" y="348" width="134" height="38" rx="9" fill="#FFFFFF" opacity="0.18" stroke="#FFFFFF" stroke-opacity="0.45"/>
+  <text x="969" y="372" text-anchor="middle" font-size="11.5" fill="#E9FBF0">相机 · 深度</text>
+  <text x="1113" y="372" text-anchor="middle" font-size="11.5" fill="#E9FBF0">LiDAR · 里程计</text>
+
+  <line x1="599" y1="350" x2="871" y2="350" stroke="#1E8E4E" stroke-width="2.5"
+        marker-end="url(#mGreen)" marker-start="url(#mGreenStart)"/>
+  <text x="735" y="338" text-anchor="middle" font-size="11.5" fill="#1E8E4E">simulator_mavlink · TCP:4560</text>
+
+  <line x1="1040" y1="442" x2="1040" y2="660" stroke="#1E8E4E" stroke-width="2.5"
+        marker-end="url(#mGreen)" marker-start="url(#mGreenStart)"/>
+  <text x="1054" y="545" font-size="11.5" fill="#1E8E4E">API Server</text>
+  <text x="1054" y="562" font-size="11.5" fill="#1E8E4E">TCP:41451</text>
+
+  <!-- ============================ DDS Agent ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="135" y="480" width="380" height="80" rx="16" fill="url(#gPink)"/>
+  </g>
+  <text x="325" y="514" text-anchor="middle" font-size="19" font-weight="700" fill="#FFFFFF">Micro-XRCE-DDS-Agent</text>
+  <text x="325" y="538" text-anchor="middle" font-size="11.5" fill="#FFE3EE">v2.4.2 · UDP 8888</text>
+
+  <line x1="325" y1="416" x2="325" y2="476" stroke="#C2255C" stroke-width="2.5"
+        marker-end="url(#mPink)" marker-start="url(#mPinkStart)"/>
+  <text x="340" y="452" font-size="11" fill="#C2255C">uXRCE-DDS</text>
+
+  <line x1="325" y1="562" x2="325" y2="662" stroke="#C2255C" stroke-width="2.5"
+        marker-end="url(#mPink)" marker-start="url(#mPinkStart)"/>
+  <text x="340" y="592" font-size="11" fill="#C2255C">DDS 数据面</text>
+
+  <!-- ============================ ROS 2 ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="60" y="600" width="1320" height="340" rx="20" fill="#FFF8DB" stroke="#E3B341" stroke-width="2"/>
+  </g>
+  <text x="90" y="640" font-size="27" font-weight="700" fill="#8A6D00">ROS 2 Humble</text>
+  <text x="1350" y="640" text-anchor="end" font-size="13" fill="#A07C12">节点 · 话题 · 工具链 · RViz2</text>
+
+  <!-- PX4 接口 -->
+  <rect x="205" y="666" width="240" height="46" rx="10" fill="#FFFFFF" stroke="#D9B23C" stroke-width="1.4"/>
+  <rect x="205" y="720" width="240" height="46" rx="10" fill="#FFFFFF" stroke="#D9B23C" stroke-width="1.4"/>
+  <rect x="205" y="774" width="240" height="46" rx="10" fill="#FFFFFF" stroke="#D9B23C" stroke-width="1.4"/>
+  <text x="325" y="684" text-anchor="middle" font-size="13" font-weight="600" fill="#8A6D00">PX4 Topics</text>
+  <text x="325" y="700" text-anchor="middle" font-size="10.5" fill="#8C6D1F">uXRCE-DDS 话题</text>
+  <text x="325" y="738" text-anchor="middle" font-size="13" font-weight="600" fill="#8A6D00">PX4 Msgs</text>
+  <text x="325" y="754" text-anchor="middle" font-size="10.5" fill="#8C6D1F">px4_msgs 消息定义</text>
+  <text x="325" y="792" text-anchor="middle" font-size="13" font-weight="600" fill="#8A6D00">PX4 ROS2 Interface</text>
+  <text x="325" y="808" text-anchor="middle" font-size="10.5" fill="#8C6D1F">rclcpp 接口</text>
+
+  <rect x="205" y="836" width="240" height="58" rx="10" fill="#FFFBEB" stroke="#E3B341" stroke-width="1.4" stroke-dasharray="5 4"/>
+  <text x="217" y="858" font-size="11.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#8A6D00">/fmu/in/*</text>
+  <text x="300" y="858" font-size="11.5" fill="#8A6D00">控制指令</text>
+  <text x="217" y="880" font-size="11.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#8A6D00">/fmu/out/*</text>
+  <text x="300" y="880" font-size="11.5" fill="#8A6D00">状态反馈</text>
+
+  <!-- 本项目节点 -->
+  <rect x="470" y="658" width="440" height="262" rx="14" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="490" y="684" font-size="14.5" font-weight="700" fill="#111827">本项目 · C++ 节点</text>
+  <text x="490" y="702" font-size="10.5" fill="#6B7280">全部 ament_cmake · 启动脚本 / launch 参数保持不变</text>
+
+  <rect x="490" y="716" width="400" height="44" rx="10" fill="#F8FBFF" stroke="#2D9CDB" stroke-width="1.6"/>
+  <text x="502" y="734" font-size="12.5" font-weight="600" fill="#1B6FA8" font-family="ui-monospace, Menlo, Consolas, monospace">keyboard_velocity</text>
+  <text x="502" y="750" font-size="10.5" fill="#6B7280">按键 → /keyboard/velocity_cmd</text>
+
+  <rect x="490" y="766" width="400" height="44" rx="10" fill="#F8FBFF" stroke="#2D9CDB" stroke-width="1.6"/>
+  <text x="502" y="784" font-size="12.5" font-weight="600" fill="#1B6FA8" font-family="ui-monospace, Menlo, Consolas, monospace">velocity_control</text>
+  <text x="502" y="800" font-size="10.5" fill="#6B7280">状态机 → /fmu/in/* 速度设定点</text>
+
+  <rect x="490" y="816" width="400" height="44" rx="10" fill="#F8FBFF" stroke="#2D9CDB" stroke-width="1.6"/>
+  <text x="502" y="834" font-size="12.5" font-weight="600" fill="#1B6FA8" font-family="ui-monospace, Menlo, Consolas, monospace">offboard_square</text>
+  <text x="502" y="850" font-size="10.5" fill="#6B7280">解锁 · 起飞 · 方形航线 · 降落 · 上锁</text>
+
+  <text x="490" y="900" font-size="10.5" fill="#6B7280">控制指令始终经过 PX4，不绕过飞控直接操纵 AirSim</text>
+
+  <!-- 桥接与可视化 -->
+  <rect x="930" y="664" width="380" height="58" rx="10" fill="#F3FBF6" stroke="#1E8E4E" stroke-width="1.6"/>
+  <text x="944" y="686" font-size="12.5" font-weight="600" fill="#1F7A43" font-family="ui-monospace, Menlo, Consolas, monospace">airsim_sensors</text>
+  <text x="944" y="704" font-size="10.5" fill="#4B7F61">AirSim RPC → RGB / 深度 / LiDAR / 位姿 / 轨迹</text>
+
+  <rect x="930" y="732" width="380" height="44" rx="10" fill="#F3FBF6" stroke="#1E8E4E" stroke-width="1.6"/>
+  <text x="944" y="759" font-size="12.5" font-weight="600" fill="#1F7A43" font-family="ui-monospace, Menlo, Consolas, monospace">topic_rates</text>
+  <text x="1296" y="759" text-anchor="end" font-size="10" fill="#4B7F61">C++ 版速率统计</text>
+
+  <rect x="930" y="786" width="380" height="50" rx="10" fill="#F6F0FF" stroke="#7B2FBF" stroke-width="1.6"/>
+  <text x="944" y="810" font-size="13.5" font-weight="700" fill="#5B21B6">RViz2</text>
+  <text x="944" y="827" font-size="10.5" fill="#7C6A99">RGB · 深度点云 · LiDAR · 轨迹</text>
+
+  <rect x="930" y="846" width="380" height="54" rx="10" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text x="944" y="868" font-size="10.5" fill="#6B7280">AirSim → airsim_sensors → RViz2</text>
+  <text x="944" y="888" font-size="10.5" fill="#6B7280">键盘 → velocity_control → /fmu/in/*</text>
+
+  <!-- ============================ 图例 ============================ -->
+  <text x="1115" y="148" font-size="12" font-weight="600" fill="#6B7280">图例</text>
+  <rect x="1115" y="160" width="44" height="22" rx="5" fill="#FFFFFF" stroke="#2D9CDB" stroke-width="2"/>
+  <text x="1170" y="176" font-size="11.5" fill="#374151">已实现</text>
+  <rect x="1115" y="190" width="44" height="22" rx="5" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="1170" y="206" font-size="11.5" fill="#374151">规划中</text>
+
+  <!-- ============================ Roadmap ============================ -->
+  <rect x="60" y="956" width="1320" height="98" rx="16" fill="#FAF7FF" stroke="#8B5CF6" stroke-width="1.8" stroke-dasharray="7 5"/>
+  <text x="90" y="988" font-size="15" font-weight="700" fill="#5B21B6">后续扩展与优化</text>
+  <text x="90" y="1006" font-size="10" fill="#8B5CF6">Roadmap</text>
+
+  <rect x="300" y="970" width="168" height="40" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.4"/>
+  <rect x="478" y="970" width="168" height="40" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.4"/>
+  <rect x="656" y="970" width="168" height="40" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.4"/>
+  <rect x="834" y="970" width="168" height="40" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.4"/>
+  <rect x="1012" y="970" width="168" height="40" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.4"/>
+  <rect x="1190" y="970" width="168" height="40" rx="10" fill="#FFFFFF" stroke="#8B5CF6" stroke-width="1.4"/>
+  <text x="384" y="995" text-anchor="middle" font-size="12" fill="#5B21B6">自动导航</text>
+  <text x="562" y="995" text-anchor="middle" font-size="12" fill="#5B21B6">地图测绘</text>
+  <text x="740" y="995" text-anchor="middle" font-size="12" fill="#5B21B6">集群控制</text>
+  <text x="918" y="995" text-anchor="middle" font-size="12" fill="#5B21B6">目标识别</text>
+  <text x="1096" y="995" text-anchor="middle" font-size="12" fill="#5B21B6">目标追踪</text>
+  <text x="1274" y="995" text-anchor="middle" font-size="12" fill="#5B21B6">虚拟竞技</text>
+
+  <text x="300" y="1038" font-size="11.5" fill="#6D28D9">优化：异步取流 · 时间戳同步 · 点云降采样 · 参数化 launch · rosbag 回放 · CI 单测</text>
+</svg>

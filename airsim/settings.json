@@ -1,0 +1,111 @@
+{
+  "SettingsVersion": 1.2,
+  "SeeDocsAt": "https://microsoft.github.io/AirSim/settings/",
+  "SimMode": "Multirotor",
+  "ClockType": "ScalableClock",
+  "LockStep": false,
+  "CameraDefaults": {
+    "CaptureSettings": [
+      {
+        "ImageType": 0,
+        "Width": 640,
+        "Height": 480,
+        "FOV_Degrees": 90,
+        "AutoExposureSpeed": 100,
+        "MotionBlurAmount": 0
+      },
+      {
+        "ImageType": 1,
+        "Width": 320,
+        "Height": 240,
+        "FOV_Degrees": 90
+      },
+      {
+        "ImageType": 2,
+        "Width": 320,
+        "Height": 240,
+        "FOV_Degrees": 90
+      }
+    ]
+  },
+  "Vehicles": {
+    "PX4": {
+      "VehicleType": "PX4Multirotor",
+      "UseSerial": false,
+      "UseTcp": true,
+      "TcpPort": 4560,
+      "LockStep": false,
+      "ControlIp": "remote",
+      "ControlPortLocal": 14540,
+      "ControlPortRemote": 14580,
+      "Cameras": {
+        "front": {
+          "X": 0.25,
+          "Y": 0.0,
+          "Z": -0.10,
+          "Roll": 0,
+          "Pitch": 0,
+          "Yaw": 0,
+          "CaptureSettings": [
+            {
+              "ImageType": 0,
+              "Width": 640,
+              "Height": 480,
+              "FOV_Degrees": 90,
+              "AutoExposureSpeed": 100,
+              "MotionBlurAmount": 0
+            },
+            {
+              "ImageType": 1,
+              "Width": 320,
+              "Height": 240,
+              "FOV_Degrees": 90
+            },
+            {
+              "ImageType": 2,
+              "Width": 320,
+              "Height": 240,
+              "FOV_Degrees": 90
+            }
+          ]
+        }
+      },
+      "Sensors": {
+        "Barometer": {
+          "SensorType": 1,
+          "Enabled": true,
+          "PressureFactorSigma": 0.0001825
+        },
+        "Lidar": {
+          "SensorType": 6,
+          "Enabled": true,
+          "NumberOfChannels": 16,
+          "Range": 40,
+          "PointsPerSecond": 50000,
+          "RotationsPerSecond": 10,
+          "HorizontalFOVStart": -180,
+          "HorizontalFOVEnd": 180,
+          "VerticalFOVUpper": 15,
+          "VerticalFOVLower": -15,
+          "X": 0.0,
+          "Y": 0.0,
+          "Z": -0.3,
+          "Roll": 0,
+          "Pitch": 0,
+          "Yaw": 0,
+          "DataFrame": "SensorLocalFrame",
+          "DrawDebugPoints": false
+        }
+      },
+      "Parameters": {
+        "NAV_RCL_ACT": 0,
+        "NAV_DLL_ACT": 0,
+        "COM_RCL_EXCEPT": 4,
+        "COM_OF_LOSS_T": 5.0,
+        "COM_OBL_RC_ACT": 4,
+        "LPE_LAT": 47.641468,
+        "LPE_LON": -122.140165
+      }
+    }
+  }
+}

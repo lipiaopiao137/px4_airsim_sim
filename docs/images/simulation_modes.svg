@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 600" width="100%"
+     font-family="Microsoft YaHei, Segoe UI, PingFang SC, Noto Sans SC, Arial, sans-serif"
+     role="img" aria-label="纯物理仿真、半物理仿真与实机飞行的演进关系">
+  <title>仿真形态演进：纯物理仿真 → 半物理仿真 → 实机飞行</title>
+  <desc>同一套 ROS 2 控制代码可以从 SITL 纯物理仿真，逐步迁移到 HITL 半物理仿真和真实飞机。</desc>
+
+  <defs>
+    <linearGradient id="gBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3AA6DE"/>
+      <stop offset="1" stop-color="#1B6FA8"/>
+    </linearGradient>
+    <linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#34C77B"/>
+      <stop offset="1" stop-color="#1E8E4E"/>
+    </linearGradient>
+    <linearGradient id="gOrange" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F2994A"/>
+      <stop offset="1" stop-color="#D97706"/>
+    </linearGradient>
+
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="136%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.12"/>
+    </filter>
+
+    <marker id="mGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#64748B"/>
+    </marker>
+    <marker id="mGrayStart" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M10,0 L0,5 L10,10 Z" fill="#64748B"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1440" height="600" fill="#F2F6FB"/>
+
+  <text x="720" y="46" text-anchor="middle" font-size="28" font-weight="700" fill="#14213D">仿真形态演进：纯物理仿真 → 半物理仿真 → 实机飞行</text>
+  <text x="720" y="76" text-anchor="middle" font-size="13.5" fill="#5B6B82">同一套 ROS 2 控制代码，可以按需迁移到硬件在环与真实飞机</text>
+
+  <!-- ============================ 面板 1：SITL ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="40" y="104" width="430" height="436" rx="18" fill="#FFFFFF" stroke="#2D9CDB" stroke-width="2"/>
+  </g>
+  <rect x="64" y="122" width="60" height="6" rx="3" fill="#2D9CDB"/>
+  <text x="64" y="150" font-size="17" font-weight="700" fill="#14213D">① 纯物理仿真 SITL</text>
+  <rect x="310" y="118" width="136" height="26" rx="13" fill="#E8F3FF" stroke="#2D9CDB" stroke-width="1.2"/>
+  <text x="378" y="136" text-anchor="middle" font-size="11" fill="#1B6FA8">本仓库现状</text>
+
+  <g filter="url(#shadow)">
+    <rect x="105" y="170" width="300" height="60" rx="12" fill="url(#gBlue)"/>
+  </g>
+  <text x="125" y="195" font-size="15" font-weight="700" fill="#FFFFFF">PX4 SITL</text>
+  <text x="125" y="214" font-size="10.5" fill="#DCEFFF">飞行控制 · uORB · DDS Client</text>
+
+  <line x1="255" y1="232" x2="255" y2="278" stroke="#64748B" stroke-width="2.2"
+        marker-end="url(#mGray)" marker-start="url(#mGrayStart)"/>
+  <text x="267" y="260" font-size="10.5" fill="#475569">simulator_mavlink · TCP:4560</text>
+
+  <g filter="url(#shadow)">
+    <rect x="105" y="280" width="300" height="60" rx="12" fill="url(#gGreen)"/>
+  </g>
+  <text x="125" y="305" font-size="15" font-weight="700" fill="#FFFFFF">AirSim Blocks</text>
+  <text x="125" y="324" font-size="10.5" fill="#DFF7E8">场景 · 物理引擎 · 传感器</text>
+
+  <line x1="255" y1="342" x2="255" y2="388" stroke="#64748B" stroke-width="2.2"
+        marker-end="url(#mGray)" marker-start="url(#mGrayStart)"/>
+  <text x="267" y="370" font-size="10.5" fill="#475569">API Server · TCP:41451</text>
+
+  <g filter="url(#shadow)">
+    <rect x="105" y="390" width="300" height="60" rx="12" fill="#FFF8DB" stroke="#E3B341" stroke-width="1.8"/>
+  </g>
+  <text x="125" y="415" font-size="15" font-weight="700" fill="#8A6D00">ROS 2 · 本项目节点</text>
+  <text x="125" y="434" font-size="10.5" fill="#8C6D1F">airsim_sensors / offboard / keyboard</text>
+
+  <text x="64" y="482" font-size="11.5" fill="#4B5563">• 无需硬件，启动即飞，适合快速迭代算法</text>
+  <text x="64" y="506" font-size="11.5" fill="#4B5563">• AirSim 提供动力学与传感器，PX4 负责控制</text>
+  <text x="64" y="530" font-size="11.5" fill="#4B5563">• 本仓库已验证自动航线与键盘遥控</text>
+
+  <text x="487" y="335" text-anchor="middle" font-size="26" fill="#9CA3AF">→</text>
+
+  <!-- ============================ 面板 2：HITL ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="505" y="104" width="430" height="436" rx="18" fill="#FFFFFF" stroke="#F2994A" stroke-width="2"/>
+  </g>
+  <rect x="529" y="122" width="60" height="6" rx="3" fill="#F2994A"/>
+  <text x="529" y="150" font-size="17" font-weight="700" fill="#14213D">② 半物理仿真 HITL</text>
+  <rect x="775" y="118" width="136" height="26" rx="13" fill="#FFF4E8" stroke="#F2994A" stroke-width="1.2"/>
+  <text x="843" y="136" text-anchor="middle" font-size="11" fill="#B45F06">下一步</text>
+
+  <g filter="url(#shadow)">
+    <rect x="570" y="170" width="300" height="60" rx="12" fill="url(#gOrange)"/>
+  </g>
+  <text x="590" y="195" font-size="15" font-weight="700" fill="#FFFFFF">Pixhawk 飞控板</text>
+  <text x="590" y="214" font-size="10.5" fill="#FFF1E2">PX4 固件 · HITL 模式</text>
+
+  <line x1="720" y1="232" x2="720" y2="278" stroke="#64748B" stroke-width="2.2"
+        marker-end="url(#mGray)" marker-start="url(#mGrayStart)"/>
+  <text x="732" y="260" font-size="10.5" fill="#475569">USB / UART · HITL 报告</text>
+
+  <g filter="url(#shadow)">
+    <rect x="570" y="280" width="300" height="60" rx="12" fill="url(#gGreen)"/>
+  </g>
+  <text x="590" y="305" font-size="15" font-weight="700" fill="#FFFFFF">AirSim HITL</text>
+  <text x="590" y="324" font-size="10.5" fill="#DFF7E8">传感器模拟 · 动力学</text>
+
+  <line x1="720" y1="342" x2="720" y2="388" stroke="#64748B" stroke-width="2.2"
+        marker-end="url(#mGray)" marker-start="url(#mGrayStart)"/>
+  <text x="732" y="370" font-size="10.5" fill="#475569">uXRCE-DDS · 串口 / UDP</text>
+
+  <g filter="url(#shadow)">
+    <rect x="570" y="390" width="300" height="60" rx="12" fill="#FFF8DB" stroke="#E3B341" stroke-width="1.8"/>
+  </g>
+  <text x="590" y="415" font-size="15" font-weight="700" fill="#8A6D00">机载计算机 · ROS 2</text>
+  <text x="590" y="434" font-size="10.5" fill="#8C6D1F">offboard / 视觉 / 导航</text>
+
+  <text x="529" y="482" font-size="11.5" fill="#4B5563">• 真实飞控板运行 PX4 固件，硬件在环</text>
+  <text x="529" y="506" font-size="11.5" fill="#4B5563">• 验证驱动、通信延迟与失效保护</text>
+  <text x="529" y="530" font-size="11.5" fill="#4B5563">• PC 端 AirSim 提供传感器与动力学</text>
+
+  <text x="952" y="335" text-anchor="middle" font-size="26" fill="#9CA3AF">→</text>
+
+  <!-- ============================ 面板 3：实机 ============================ -->
+  <g filter="url(#shadow)">
+    <rect x="970" y="104" width="430" height="436" rx="18" fill="#FFFFFF" stroke="#27AE60" stroke-width="2"/>
+  </g>
+  <rect x="994" y="122" width="60" height="6" rx="3" fill="#27AE60"/>
+  <text x="994" y="150" font-size="17" font-weight="700" fill="#14213D">③ 实机飞行</text>
+  <rect x="1240" y="118" width="136" height="26" rx="13" fill="#EAF8F0" stroke="#27AE60" stroke-width="1.2"/>
+  <text x="1308" y="136" text-anchor="middle" font-size="11" fill="#1E8449">目标形态</text>
+
+  <g filter="url(#shadow)">
+    <rect x="1035" y="170" width="300" height="60" rx="12" fill="url(#gOrange)"/>
+  </g>
+  <text x="1055" y="195" font-size="15" font-weight="700" fill="#FFFFFF">真实机体 + 动力系统</text>
+  <text x="1055" y="214" font-size="10.5" fill="#FFF1E2">电机 · 桨 · 电池</text>
+
+  <line x1="1185" y1="232" x2="1185" y2="278" stroke="#64748B" stroke-width="2.2"
+        marker-end="url(#mGray)" marker-start="url(#mGrayStart)"/>
+  <text x="1197" y="260" font-size="10.5" fill="#475569">PWM / DShot</text>
+
+  <g filter="url(#shadow)">
+    <rect x="1035" y="280" width="300" height="60" rx="12" fill="url(#gBlue)"/>
+  </g>
+  <text x="1055" y="305" font-size="15" font-weight="700" fill="#FFFFFF">Pixhawk · PX4</text>
+  <text x="1055" y="324" font-size="10.5" fill="#DCEFFF">姿态 / 位置控制 · 安全逻辑</text>
+
+  <line x1="1185" y1="342" x2="1185" y2="388" stroke="#64748B" stroke-width="2.2"
+        marker-end="url(#mGray)" marker-start="url(#mGrayStart)"/>
+  <text x="1197" y="370" font-size="10.5" fill="#475569">uXRCE-DDS / MAVLink</text>
+
+  <g filter="url(#shadow)">
+    <rect x="1035" y="390" width="300" height="60" rx="12" fill="#FFF8DB" stroke="#E3B341" stroke-width="1.8"/>
+  </g>
+  <text x="1055" y="415" font-size="15" font-weight="700" fill="#8A6D00">机载计算机 · ROS 2</text>
+  <text x="1055" y="434" font-size="10.5" fill="#8C6D1F">导航 · 规划 · 目标识别</text>
+
+  <text x="994" y="482" font-size="11.5" fill="#4B5563">• 机载计算机运行同一套 ROS 2 节点</text>
+  <text x="994" y="506" font-size="11.5" fill="#4B5563">• QGC 数传监控，日志可回放</text>
+  <text x="994" y="530" font-size="11.5" fill="#4B5563">• Geofence / RTL / 失效保护等安全策略</text>
+</svg>

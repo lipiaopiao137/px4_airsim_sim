@@ -1,0 +1,8 @@
+build/
+install/
+log/
+.vscode/
+record/
+out/
+.vs/
+ref/
